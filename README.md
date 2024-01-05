@@ -25,8 +25,8 @@ The primary objectives of our Platform are as follows:
 
 ## Team Members:
 1. Shaivi Puranik (Leader)
-2. Karan Panda
+2. Nishant Pandey
 3. Anand Pandey
-4. Nishant Pandey
+4. Karan Panda
 5. Sumit Prajapati
 6. Jay Vishwakarma
