@@ -13,7 +13,7 @@
 <body class="bgimg">
   <header>
     <h1 style="color: rgb(228, 92, 92); text-align: center; font-family: 'Courier New', Courier, monospace; font-weight: 800; text-shadow: 1px 1px 1px black;">Udyog Saarthi App</h1>
-    <h2 style="color: rgb(228, 92, 92); text-align: center; font-family: 'Courier New', Courier, monospace; font-weight: 800; text-shadow: 1px 1px 1px black;">&nbsp; &nbsp; हर दिव्यांग का सारथी <img src="images/madhav-logo.png" alt="MADHAV" width="100px" height="100px" ></h2> 
+    <h2 style="color: rgb(228, 92, 92); text-align: center; font-family: 'Courier New', Courier, monospace; font-weight: 800; text-shadow: 1px 1px 1px black;">&nbsp; &nbsp; हर दिव्यांग का सारथी <img src="madhav-logo.png" alt="MADHAV" width="100px" height="100px" ></h2> 
   </header>
 <div class="container">
 
@@ -51,6 +51,7 @@
     var email="";
     var contact="";
     var occupation="";
+    var langselect=false;
 
     // Listen for keyboard key presses
     document.addEventListener("keydown", function (event) {
@@ -60,7 +61,11 @@
       if (event.key === "1") {
         enterFirstName();
         
-      } else if (event.key === "2") {
+      }else if (event.key === "0") {
+        langselect=true;
+        enterFirstName();
+      }
+       else if (event.key === "2") {
           enterLastName();
       }
       else if (event.key === "3") {
@@ -71,9 +76,6 @@
       }
       else if (event.key === "5") {
         enterOccupation();
-      }
-      if (event.key === "1" || event.key === "2" || event.key === "3" || event.key==="4" ||event.key==="5") {
-        startListening(); // Start listening when 1 or 2 is pressed
       }
       if (event.key === "Enter") {
         submitForm();
@@ -116,8 +118,10 @@
         isEnteringEmail = false;
         isEnteringFirstName = false;
         isEnteringLastName = false;
-        speak("Please say Occupation.");
+        if (langselect) speak("कृपया व्यवसाय बताएं.");
+        else speak("Please say Occupation.");
       }
+      setTimeout(startListening, 2000);
     }
 
     function enterContact() {
@@ -127,8 +131,10 @@
         isEnteringEmail = false;
         isEnteringFirstName = false;
         isEnteringLastName = false;
-        speak("Please say  Contact Number.");
+        if (langselect) speak("कृपया संपर्क नंबर बताएं.");
+        else speak("Please say  Contact Number.");
       }
+      setTimeout(startListening, 2000);
     }
 
     function enterEmail() {
@@ -138,8 +144,10 @@
         isEnteringEmail = true;
         isEnteringFirstName = false;
         isEnteringLastName = false;
-        speak("Please say  Email.");
+        if (langselect) speak("कृपया ईमेल कहें.");
+        else speak("Please say  Email.");
       }
+      setTimeout(startListening, 2000);
     }
 
     function enterFirstName() {
@@ -149,8 +157,10 @@
         isEnteringEmail = false;
         isEnteringFirstName = true;
         isEnteringLastName = false;
-        speak("Please say  FirstName.");
+        if (langselect) speak("कृपया प्रथम नाम बताएं.");
+        else speak("Please say  FirstName.");
       }
+      setTimeout(startListening, 2000);
     }
 
     function enterLastName() {
@@ -160,13 +170,16 @@
         isEnteringEmail = false;
         isEnteringFirstName = false;
         isEnteringLastName = true;
-        speak("Please say  LastName.");
+        if (langselect) speak("कृपया अंतिम नाम बताएं.");
+        else speak("Please say  LastName.");
       }
+      setTimeout(startListening, 2000);
     }
 
     function greet() {
       if (!isEnteringFirstName && !isEnteringLastName) {
         speak("Welcome to a new page. Here you have to fill your Guardian details. press 1 to enter first name");
+        speak("नये पेज पर आपका स्वागत है. यहां आपको अपना गार्जियन विवरण भरना होगा। हिंदी में बात करने के लिए 0 दबाएँ");
       }
     }
 
@@ -174,26 +187,31 @@
       if (isEnteringFirstName) {
         firstName = transcript;
         document.getElementById("first_name").value = firstName;
-        speak("FirstName set to " + firstName +"Now press 2 for last name");
+        if (langselect) speak("प्रथम नाम को " + firstName +" पर सेट किया गया है, अब अंतिम नाम के लिए 2 दबाएँ");
+        else speak("FirstName set to " + firstName +"Now press 2 for last name");
       } else if (isEnteringLastName) {
         lastName = transcript;
         document.getElementById("last_name").value = lastName;
-        speak("lastName set to " + lastName +"Now press 3 for email id");
+        if (langselect) speak("अंतिम नाम" + lastName + "पर सेट करें, अब ईमेल आईडी के लिए 3 दबाएं");
+        else speak("lastName set to " + lastName +"Now press 3 for email id");
       } 
       else if (isEnteringEmail) {
         email = transcript;
         document.getElementById("email").value = email;
-        speak("username set to " + email +"Now press 4 for contact");
+        if (langselect) speak("उपयोगकर्ता नाम" + email + "पर सेट, अब संपर्क के लिए 4 दबाएँ")
+        else speak("username set to " + email +"Now press 4 for contact");
       }
       else if (isEnteringContact) {
         contact = transcript;
         document.getElementById("phone").value = contact;
-        speak("Contact Number set to " + contact +"Now press 5 for Occupation.");
+        if (langselect) speak("संपर्क नंबर को "+ contact +" पर सेट किया गया है, अब व्यवसाय के लिए 5 दबाएं।");
+        else speak("Contact Number set to " + contact +"Now press 5 for Occupation.");
       }
       else if (isEnteringOccupation) {
         occupation = transcript;
         document.getElementById("occupation").value = occupation;
-        speak("occupation set to " + occupation +"Click enter to submit.");
+        if (langselect) speak("व्यवसाय को "+ occupation +" पर सेट करें सबमिट करने के लिए एंटर पर क्लिक करें।");
+        else speak("occupation set to " + occupation +"Click enter to submit.");
       }
       else if (transcript.toLowerCase() === "submit") {
         submitForm();
@@ -208,6 +226,7 @@
     function speak(text) {
       var synth = window.speechSynthesis;
       var utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "hi-IN";
       synth.speak(utterance);
     }
   </script>

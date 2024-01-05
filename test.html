@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Speak Webpage Contents</title>
+</head>
+<body>
+    <h1>Speak Webpage Contents</h1>
+    <p>Click the button below to have the webpage contents spoken aloud:</p>
+    <button id="speakButton">Speak</button>
+
+    <script>
+        const speakButton = document.getElementById("speakButton");
+
+        // Check if the SpeechSynthesis API is available in the browser
+        if ('speechSynthesis' in window) {
+            speakButton.addEventListener("click", function() {
+                // Create a new speech synthesis object
+                const synth = window.speechSynthesis;
+
+                // Get all the text from the webpage
+                const allText = document.body.innerText;
+
+                // Create a SpeechSynthesisUtterance object
+                const utterance = new SpeechSynthesisUtterance(allText);
+
+                // Speak the contents of the webpage
+                synth.speak(utterance);
+            });
+        } else {
+            alert("Text-to-speech is not supported in this browser.");
+        }
+    </script>
+</body>
+</html>

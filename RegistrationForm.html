@@ -12,8 +12,8 @@
 
 <body class="bgimg">
   <header>
-    <h1 style="color: rgb(229, 146, 12); text-align: center; font-family: 'Courier New', Courier, monospace; font-weight: 800; text-shadow: 1px 1px 1px black;">Udyog Saarthi App</h1>
-    <h2 style="color: rgb(228, 92, 92); text-align: center; font-family: 'Courier New', Courier, monospace; font-weight: 800; text-shadow: 1px 1px 1px black;">&nbsp; &nbsp; हर दिव्यांग का सारथी <img src="images/madhav-logo.png" alt="MADHAV" width="100px" height="100px" ></h2> 
+    <h1 style="color: rgb(228, 92, 92); text-align: center; font-family: 'Courier New', Courier, monospace; font-weight: 800; text-shadow: 1px 1px 1px black;">Udyog Saarthi App</h1>
+    <h2 style="color: rgb(228, 92, 92); text-align: center; font-family: 'Courier New', Courier, monospace; font-weight: 800; text-shadow: 1px 1px 1px black;">&nbsp; &nbsp; हर दिव्यांग का सारथी <img src="madhav-logo.png" alt="MADHAV" width="100px" height="100px" ></h2> 
   </header>
 
 <div class="container">
@@ -90,6 +90,7 @@
     var category = document.getElementById('disabilityCategory');
     var password="";
     var confirmPassword="";
+    var langselect=false;
 
     // Listen for keyboard key presses
     document.addEventListener("keydown", function (event) {
@@ -101,6 +102,10 @@
         
       } else if (event.key === "2") {
           enterLastName();
+      }
+      else if (event.key === "0") {
+        langselect=true;
+        speak("अपना पहला नाम दर्ज करने के लिए 1 दबाएँ")
       }
       else if (event.key === "3") {
         enterEmail();
@@ -126,9 +131,7 @@
       else if (event.key === "9") {
         enterConfirmPassword();
       }
-      if (event.key === "1" || event.key === "2" || event.key === "3" || event.key==="4" || event.key==="5" || event.key==="6" || event.key==="7" || event.key==="8"|| event.key==="9") {
-        startListening(); // Start listening when 1 or 2 is pressed
-      }
+      
       if (event.key === "Enter") {
         submitForm();
       }
@@ -176,8 +179,10 @@
         isEnteringEmail = false;
         isEnteringFirstName = false;
         isEnteringLastName = false;
-        speak("Please Confirm your Password.");
+        if (langselect) speak("कृपया अपने पासवर्ड की पुष्टि करें।");
+        else speak("Please Confirm your Password.");
       }
+      setTimeout(startListening, 2000);
     }
 
     function enterPassword() {
@@ -191,8 +196,10 @@
         isEnteringEmail = false;
         isEnteringFirstName = false;
         isEnteringLastName = false;
-        speak("Please say your Password.");
+        if (langselect) speak("कृपया अपना पासवर्ड बताएं.");
+        else speak("Please say your Password.");
       }
+      setTimeout(startListening, 3000);
     }
     
 
@@ -207,8 +214,10 @@
         isEnteringEmail = false;
         isEnteringFirstName = false;
         isEnteringLastName = false;
-        speak("Please select your Category of Disability.");
+        if (langselect) speak("कृपया अपनी विकलांगता की श्रेणी चुनें।")
+        else speak("Please select your Category of Disability.");
       }
+      setTimeout(startListening, 2000);
     }
 
     function enterGender() {
@@ -222,8 +231,10 @@
         isEnteringEmail = false;
         isEnteringFirstName = false;
         isEnteringLastName = false;
-        speak("Please say your Gender.");
+        if (langselect) speak("कृपया अपना लिंग बताएं.");
+        else speak("Please say your Gender.");
       }
+      setTimeout(startListening, 2000);
     }
 
     function enterAge() {
@@ -237,8 +248,10 @@
         isEnteringEmail = false;
         isEnteringFirstName = false;
         isEnteringLastName = false;
-        speak("Please say your Age.");
+        if (langselect) speak("कृपया अपनी उम्र बताएं।")
+        else speak("Please say your Age.");
       }
+      setTimeout(startListening, 2000);
     }
 
     function enterContact() {
@@ -252,10 +265,12 @@
         isEnteringEmail = false;
         isEnteringFirstName = false;
         isEnteringLastName = false;
-        speak("Please say your Contact Number.");
+        if (langselect) speak("कृपया अपना संपर्क नंबर बताएं.");
+        else speak("Please say your Contact Number.");
       }
+      setTimeout(startListening, 2000);
     }
-
+    
     function enterEmail() {
       if (!isEnteringEmail) {
         isEnteringConfirmPassword=false;
@@ -267,8 +282,10 @@
         isEnteringEmail = true;
         isEnteringFirstName = false;
         isEnteringLastName = false;
-        speak("Please say your Email.");
+        if (langselect) speak("कृपया अपना ईमेल बताएं.");
+        else speak("Please say your Email.");
       }
+      setTimeout(startListening, 2000);
     }
 
     function enterFirstName() {
@@ -282,8 +299,10 @@
         isEnteringEmail = false;
         isEnteringFirstName = true;
         isEnteringLastName = false;
-        speak("Please say your FirstName.");
+        if(langselect) speak("कृपया अपना पहला नाम बताएं.");
+        else speak("Please say your FirstName.");
       }
+      setTimeout(startListening, 2000);
     }
 
     function enterLastName() {
@@ -297,13 +316,16 @@
         isEnteringEmail = false;
         isEnteringFirstName = false;
         isEnteringLastName = true;
-        speak("Please say your LastName.");
+        if (langselect) speak("कृपया अपना अंतिम नाम बताएं.");
+        else speak("Please say your LastName.");
       }
+      setTimeout(startListening, 2000);
     }
 
     function greet() {
       if (!isEnteringFirstName && !isEnteringLastName) {
         speak("Hello! I am your assistant, Madhav. Press 1 for entering your first name");
+        speak("नमस्ते! मैं आपका सहायक हूँ, माधव। हिंदी में बात करने के लिए 0 दबाएँ");
       }
     }
 
@@ -311,26 +333,31 @@
       if (isEnteringFirstName) {
         firstName = transcript;
         document.getElementById("first_name").value = firstName;
-        speak("FirstName set to " + firstName +"Now press 2 for last name.");
+        if (langselect) speak("प्रथम नाम को " + firstName + "पर सेट करें अब अंतिम नाम के लिए 2 दबाएँ।")
+        else speak("FirstName set to " + firstName +"Now press 2 for last name.");
       } else if (isEnteringLastName) {
         lastName = transcript;
         document.getElementById("last_name").value = lastName;
-        speak("lastName set to " + lastName +"Now press 3 for email id.");
+        if (langselect) speak("अंतिम नाम को "+ lastName +" पर सेट करें, अब ईमेल आईडी के लिए 3 दबाएं।");
+        else speak("lastName set to " + lastName +"Now press 3 for email id.");
       } 
       else if (isEnteringEmail) {
         email = transcript;
         document.getElementById("email").value = email;
-        speak("username set to " + email +"Now press 4 for contact.");
+        if (langselect) speak("उपयोगकर्ता नाम " + email + " पर सेट है, अब संपर्क के लिए 4 दबाएं।");
+        else speak("username set to " + email +"Now press 4 for contact.");
       }
       else if (isEnteringAge) {
         age = transcript;
         document.getElementById("age").value = age;
+        if (langselect) speak("आयु को "+ age +" पर सेट करें, अब लिंग के लिए 6 दबाएँ।");
         speak("Age set to " + age +"Now press 6 for gender.");
       }
       else if (isEnteringContact) {
         contact = transcript;
         document.getElementById("phone").value = contact;
-        speak("Contact Number set to " + contact +"Now press 5 for age");
+        if (langselect) speak("संपर्क नंबर को "+ contact +" पर सेट करें, अब उम्र के लिए 5 दबाएं");
+        else speak("Contact Number set to " + contact +"Now press 5 for age");
       }
       else if (isEnteringGender) {
     transcript = transcript.toLowerCase();
@@ -338,18 +365,22 @@
     if (transcript.includes("male")) {
       // Select the Male radio button
       document.getElementById("male").checked = true;
-      speak("Gender set to Male. Now press 7 for category");
+      if (langselect) speak("लिंग को पुरुष पर सेट किया गया. अब कैटेगरी के लिए 7 दबाएं");
+      else speak("Gender set to Male. Now press 7 for category");
     } else if (transcript.includes("female")) {
       // Select the Female radio button
       document.getElementById("female").checked = true;
-      speak("Gender set to Female. Now press 7 for category");
+      if (langselect) speak("लिंग को महिला पर सेट किया गया. अब कैटेगरी के लिए 7 दबाएं");
+      else speak("Gender set to Female. Now press 7 for category");
     } else if (transcript.includes("other")) {
       // Select the Other radio button
       document.getElementById("other").checked = true;
-      speak("Gender set to Other. Now press 7 for category");
+      if (langselect) speak("लिंग अन्य पर सेट है. अब कैटेगरी के लिए 7 दबाएं");
+      else speak("Gender set to Other. Now press 7 for category");
     } else {
       document.getElementById("male").checked = true;
-      speak("Gender set to Male. Now press 7 for category");
+      if (langselect) speak("लिंग को पुरुष पर सेट किया गया. अब कैटेगरी के लिए 7 दबाएं");
+      else speak("Gender set to Male. Now press 7 for category");
     }
   }
       
@@ -373,9 +404,12 @@
 
     if (selectedOption) {
       selectedOption.selected = true;
-      speak('Category of Disability set to ' + selectedOption.textContent +"Press 8 to enter password.");
+      if(langselect) speak('विकलांगता की श्रेणी '+selectedOption.textContent+'पर सेट है और पासवर्ड दर्ज करने के लिए 8 दबाएँ।');
+      else speak('Category of Disability set to ' + selectedOption.textContent +"Press 8 to enter password.");
     } else {
-      speak("Sorry, I couldn't understand the category. Please try again.");
+      document.getElementById("D").selected=true;
+      if (langselect) speak("विकलांगता की श्रेणी डी पर सेट है। पासवर्ड दर्ज करने के लिए 8 दबाएं।");
+      else speak("Category of Disability set to D. Press 8 to enter password.");
     }
   }
   
@@ -383,12 +417,14 @@
       else if (isEnteringPassword) {
         password = transcript;
         document.getElementById("password").value = password;
-        speak("Password set to " + password +"Press 9 to confirm password.");
+        if (langselect) speak("पासवर्ड को "+ password +" पर सेट करें, पासवर्ड की पुष्टि करने के लिए 9 दबाएं।");
+        else speak("Password set to " + password +"Press 9 to confirm password.");
       }
       else if (isEnteringConfirmPassword) {
         confirmPassword = transcript;
         document.getElementById("confirm_password").value = confirmPassword;
-        speak("Password confirmed. Click enter to submit.");
+        if (langselect) speak("पासवर्ड की पुष्टि की गई. सबमिट करने के लिए एंटर पर क्लिक करें।");
+        else speak("Password confirmed. Click enter to submit.");
       }
       else if (transcript.toLowerCase() === "submit") {
         submitForm();
@@ -396,13 +432,13 @@
     }
 
     function submitForm() {
-      // Redirect to "google.com"
       window.location.href = "Guardianform.html";
     }
 
     function speak(text) {
       var synth = window.speechSynthesis;
       var utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "hi-IN";
       synth.speak(utterance);
     }
   </script>

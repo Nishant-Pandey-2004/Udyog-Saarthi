@@ -17,7 +17,7 @@
       <span class="text-center">
         <header>
           <h1 style="color: rgb(209, 127, 39); text-align: center; font-family: 'Courier New', Courier, monospace; font-weight: 800; text-shadow: 1px 1px 1px black;">Udyog Saarthi App</h1>
-          <h2 style="color: rgb(255, 255, 255); text-align: center; font-family: 'Courier New', Courier, monospace; font-weight: 800; text-shadow: 1px 1px 1px black;">&nbsp; &nbsp; हर दिव्यांग का सारथी <img src="images/madhav-logo.png" alt="MADHAV" width="100px" height="100px" ></h2> 
+          <h2 style="color: rgb(255, 255, 255); text-align: center; font-family: 'Courier New', Courier, monospace; font-weight: 800; text-shadow: 1px 1px 1px black;">&nbsp; &nbsp; हर दिव्यांग का सारथी <img src="madhav-logo.png" alt="MADHAV" width="100px" height="100px" ></h2> 
         </header>
       </span>
       <div class="input-container">
@@ -41,9 +41,13 @@
     var isEnteringPassword = false;
     var email = "";
     var password = "";
+    let langselect=false;
 
     // Listen for keyboard key presses
     document.addEventListener("keydown", function (event) {
+      
+      
+
       if (event.key === " ") {
         greet();
       }
@@ -52,8 +56,9 @@
       } else if (event.key === "1") {
         enterEmail();
       }
-      if (event.key === "1" || event.key === "2") {
-        startListening(); // Start listening when 1 or 2 is pressed
+        else if (event.key === "0") {
+        langselect=true;
+        enterEmail();
       }
       if (event.key === "Enter") {
         submitForm();
@@ -63,6 +68,8 @@
     var recognition = new webkitSpeechRecognition();
     recognition.lang = "en-GB";
     recognition.continuous = true;
+
+    
 
     recognition.onstart = function () {
       isListening = true;
@@ -85,25 +92,34 @@
       recognition.start();
     }
 
-    function enterEmail() {
+      function enterEmail() {
       if (!isEnteringEmail) {
         isEnteringEmail = true;
         isEnteringPassword = false;
+        if (langselect)
+        speak("कृपया अपना उपयोगकर्ता नाम बताएं.")
+        else
         speak("Please say your Username.");
       }
+      setTimeout(startListening, 3000);
     }
 
     function enterPassword() {
       if (!isEnteringPassword) {
         isEnteringEmail = false;
         isEnteringPassword = true;
-        speak("Please say your password.");
+        if (langselect)
+        speak("कृपया अपना पासवर्ड बताएं.")
+        else
+        speak("Please say your Password.");
       }
+      setTimeout(startListening, 2000);
     }
 
     function greet() {
       if (!isEnteringEmail && !isEnteringPassword) {
-        speak("Congratulations you are successfully registered. Now press 1 for entering your username.");
+        speak("Congratulations you are successfully registered. Press 1 to communicate in English.");
+        speak("बधाई हो आप सफलतापूर्वक पंजीकृत हो गए। हिंदी में संवाद करने के लिए 0 दबाएँ।")
       }
     }
 
@@ -111,11 +127,13 @@
       if (isEnteringEmail) {
         email = transcript;
         document.getElementById("email").value = email;
-        speak("Hello" + email +" Press 2 to enter your password.");
+        if (langselect) speak("नमस्ते" + email +" अपना पासवर्ड दर्ज करने के लिए 2 दबाएँ।")
+        else speak("Hello" + email +" Press 2 to enter your password.");
       } else if (isEnteringPassword) {
         password = transcript;
         document.getElementById("password").value = password;
-        speak("Password entered. Click enter to login.");
+        if (langselect) speak("पासवर्ड दर्ज. लॉगिन करने के लिए एंटर पर क्लिक करें।")
+        else speak("Password entered. Click enter to login.");
       } else if (transcript.toLowerCase() === "submit") {
         submitForm();
       }
@@ -129,8 +147,10 @@
     function speak(text) {
       var synth = window.speechSynthesis;
       var utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "hi-IN";
       synth.speak(utterance);
     }
+
   </script>
 </body>
 
